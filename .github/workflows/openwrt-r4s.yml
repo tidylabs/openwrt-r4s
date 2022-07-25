@@ -5,7 +5,7 @@ name: OpenWrt R4S
 on:
   push:
     branches: [ "main" ]
-    paths-ignore: [ ".gitignore", "LICENSE", "README.md" ]
+    tags: [ "v*" ]
 jobs:
   imagebuilder:
     runs-on: ubuntu-latest
