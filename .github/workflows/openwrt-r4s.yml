@@ -10,6 +10,9 @@ jobs:
   imagebuilder:
     runs-on: ubuntu-latest
     container: debian:latest
+
+    permissions:
+      contents: write
     
     steps:
       - uses: actions/checkout@v3
