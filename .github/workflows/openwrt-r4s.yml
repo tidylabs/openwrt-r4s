@@ -6,7 +6,6 @@ on:
   push:
     branches: [ "main" ]
     paths-ignore: [ ".gitignore", "LICENSE", "README.md" ]
-  workflow_dispatch:
 jobs:
   imagebuilder:
     runs-on: ubuntu-latest
@@ -24,3 +23,8 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           path: openwrt-*-sysupgrade.img.gz
+      
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: openwrt-*-sysupgrade.img.gz
