@@ -9,7 +9,7 @@ from pathlib import Path
 from urllib.request import urlretrieve
 from urllib.parse import urlparse
 
-VERSION = "22.03.0-rc5"
+VERSION = "22.03.0-rc6"
 TARGET = "rockchip"
 SUBTARGET = "armv8"
 PROFILE = "friendlyarm_nanopi-r4s"
@@ -18,7 +18,6 @@ PACKAGES = [
     "luci-ssl", "-firewall4", "-nftables", "-kmod-nft-offload"
 ]
 EXTRA_PACKAGES = [
-    "https://downloads.openwrt.org/releases/22.03-SNAPSHOT/targets/rockchip/armv8/packages/libwolfssl5.4.0.ee39414e_5.4.0-stable-3_aarch64_generic.ipk",
 ]
 
 URL_IMAGEBUILDER = f"https://downloads.openwrt.org/releases/{VERSION}/targets/{TARGET}/{SUBTARGET}/openwrt-imagebuilder-{VERSION}-{TARGET}-{SUBTARGET}.Linux-x86_64.tar.xz"
