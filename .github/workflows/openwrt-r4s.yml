@@ -1,33 +1,47 @@
-# Build an OpenWrt image using GitHub Actions
-
 name: OpenWrt R4S
 
 on:
   push:
     branches: [ "main" ]
+    paths-ignore: [ "LICENSE", "**/README.md" ]
     tags: [ "v*" ]
 jobs:
   imagebuilder:
     runs-on: ubuntu-latest
-    container: debian:latest
+    container:
+      image: debian:latest
+      options: --pull always
 
     permissions:
       contents: write
-    
-    steps:
-      - uses: actions/checkout@v3
 
+    steps:
       - name: Install dependencies
-        run: apt-get update && apt-get install -y bzip2 file gawk git make perl python3 rsync unzip wget
-        
+        run: apt-get update && apt-get install -y
+          bzip2
+          file
+          gawk
+          git
+          make
+          perl
+          python3
+          rsync
+          unzip
+          wget
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Build image
         run: ./build_image.py
-      
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
           path: openwrt-*-sysupgrade.img.gz
-      
-      - uses: softprops/action-gh-release@v1
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           prerelease: contains(github.ref, '-rc')
