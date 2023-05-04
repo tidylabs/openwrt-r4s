@@ -9,7 +9,7 @@ from pathlib import Path
 from urllib.request import urlretrieve
 from urllib.parse import urlparse
 
-VERSION = "22.03.4"
+VERSION = "22.03.5"
 TARGET = "rockchip"
 SUBTARGET = "armv8"
 PROFILE = "friendlyarm_nanopi-r4s"
