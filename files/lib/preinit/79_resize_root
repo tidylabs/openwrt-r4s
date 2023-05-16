@@ -1,0 +1,24 @@
+# Expands the "/" partition to fill entire disk.
+
+do_resize_root() {
+    local root="$(findmnt -oSOURCE -rn /)"
+
+    local disk="$(echo ${root} | sed -Ee "s|(([0-9]+)p)?[0-9]+$|\2|")"
+    local part="$(echo ${root} | grep -Eo "[0-9]+$")"
+
+    local part_dir="/sys/block/${disk##*/}/${root##*/}"
+    local part_start="$(cat ${part_dir}/start)"
+    local part_size="$(cat ${part_dir}/size)"
+    local part_end="$((${part_start} + ${part_size}))"
+
+    local next_dir="${part_dir%[0-9]}$((${part} + 1))"
+    local next_start=$([ -d "${next_dir}" ] \
+            && cat "${next_dir}/start" \
+            || cat "/sys/block/${disk##*/}/size")
+
+    [ "${part_end}" -lt "${next_start}" ] || return 0
+
+    parted -s ${disk} resizepart ${part} 100%
+}
+
+boot_hook_add preinit_main do_resize_root
