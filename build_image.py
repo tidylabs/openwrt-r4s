@@ -14,16 +14,9 @@ TARGET = "rockchip"
 SUBTARGET = "armv8"
 PROFILE = "friendlyarm_nanopi-r4s"
 PACKAGES = [
-    "firewall",
-    "ip6tables-legacy",
-    "iptables-legacy",
-    "kmod-ipt-offload",
-    "luci-ssl",
-    "mount-utils",
-    "parted",
-    "-firewall4",
-    "-nftables",
-    "-kmod-nft-offload"
+    "firewall", "ip6tables-legacy", "iptables-legacy", "kmod-ipt-offload",
+    "luci-ssl", "mount-utils", "parted", "resize2fs", "-firewall4",
+    "-nftables", "-kmod-nft-offload"
 ]
 EXTRA_PACKAGES = [
 ]
@@ -56,11 +49,12 @@ if __name__ == "__main__":
         urldownload(package_url, "./packages/")
 
     subprocess.run([
-        "make", "image", f"PROFILE={PROFILE}", f"PACKAGES={' '.join(PACKAGES)}", "FILES=../files"
+        "make", "image", "FILES=../files", f"PROFILE={PROFILE}",
+        f"PACKAGES={' '.join(PACKAGES)}",
     ]).check_returncode()
 
     bin_dir = Path(f"./bin/targets/{TARGET}/{SUBTARGET}/")
-    for image_file in bin_dir.glob(f"openwrt-{VERSION}-{TARGET}-{SUBTARGET}-{PROFILE}-*-sysupgrade.img.gz"):
+    for image_file in bin_dir.glob(f"openwrt-*-sysupgrade.img.gz"):
         print(f"Copying {image_file.name}")
         shutil.copy(image_file, "..")
 
