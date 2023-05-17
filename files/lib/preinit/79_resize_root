@@ -18,7 +18,10 @@ do_resize_root() {
 
     [ "${part_end}" -lt "${next_start}" ] || return 0
 
-    parted -s ${disk} resizepart ${part} 100%
+    parted -s "${disk}" resizepart "${part}" 100%
+
+    local fstype="$(findmnt -oFSTYPE -rn /)"
+    [ "${fstype}" = "ext4" ] && resize2fs -f "${root}"
 }
 
 boot_hook_add preinit_main do_resize_root
