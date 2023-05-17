@@ -44,6 +44,10 @@ if __name__ == "__main__":
 
     os.chdir(
         f"openwrt-imagebuilder-{VERSION}-{TARGET}-{SUBTARGET}.Linux-x86_64")
+    
+    patch_dir = Path("../patches")
+    for patch in patch_dir.glob("*.patch"):
+        subprocess.run(["patch", "-p0", "-i", f"{patch}"]).check_returncode()
 
     for package_url in EXTRA_PACKAGES:
         urldownload(package_url, "./packages/")
