@@ -1,3 +1,4 @@
+#!/bin/sh
 # Expands the "/" partition to fill entire disk.
 
 do_resize_root() {
