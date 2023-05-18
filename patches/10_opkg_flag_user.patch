@@ -1,0 +1,13 @@
+--- include/rootfs.mk	2023-05-18 08:28:38
++++ include/rootfs.mk	2023-05-18 08:31:13
+@@ -87,6 +87,10 @@
+ 			fi; \
+ 		done || true \
+ 	)
++	sed -Ei \
++		-e 's/^Status: (.*) user (.*)/Status: \1 ok \2/g' \
++		-e 's/^Status: (.*) (.*)(,user|user,)(.*) (.*)/Status: \1 \2\4 \5/g' \
++		$(1)/usr/lib/opkg/status
+ 	$(if $(SOURCE_DATE_EPOCH),sed -i "s/Installed-Time: .*/Installed-Time: $(SOURCE_DATE_EPOCH)/" $(1)/usr/lib/opkg/status)
+ 	@-find $(1) -name CVS -o -name .svn -o -name .git -o -name '.#*' | $(XARGS) rm -rf
+ 	rm -rf \
