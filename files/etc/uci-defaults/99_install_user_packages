@@ -1,0 +1,9 @@
+#!/bin/sh
+# Install packages from /etc/backup/user_packages.txt on restore.
+
+USER_PACKAGES="/etc/backup/user_packages.txt"
+
+[ -f "$USER_PACKAGES" ] || exit 0
+
+opkg update \
+    && opkg install $(cat "$USER_PACKAGES" | xargs)
