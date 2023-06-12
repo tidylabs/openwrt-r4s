@@ -24,7 +24,7 @@ jobs:
           git
           make
           perl
-          python3
+          python3-distutils
           rsync
           unzip
           wget
