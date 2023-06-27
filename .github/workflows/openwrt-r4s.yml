@@ -8,32 +8,16 @@ on:
 jobs:
   imagebuilder:
     runs-on: ubuntu-latest
-    container:
-      image: debian:latest
-      options: --pull always
 
     permissions:
       contents: write
 
     steps:
-      - name: Install dependencies
-        run: apt-get update && apt-get install -y
-          bzip2
-          file
-          gawk
-          git
-          make
-          perl
-          python3-distutils
-          rsync
-          unzip
-          wget
-
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Build image
-        run: ./build_image.py
+        uses: tidylabs/action-openwrt-imagebuilder@main
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3

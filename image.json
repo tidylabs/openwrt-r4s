@@ -1,0 +1,18 @@
+{
+    "version": "23.05-SNAPSHOT",
+    "target": "rockchip/armv8",
+    "profile": "friendlyarm_nanopi-r4s",
+    "packages": [
+        "firewall",
+        "ip6tables-legacy",
+        "iptables-legacy",
+        "kmod-ipt-offload",
+        "luci-ssl",
+        "mount-utils",
+        "parted",
+        "resize2fs",
+        "-firewall4",
+        "-nftables",
+        "-kmod-nft-offload"
+    ]
+}
